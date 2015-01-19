@@ -2,7 +2,9 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -15,8 +17,8 @@ public class PdfLinkProcessorTest {
      */
     @Test
     public void testProcessPdfLinks() throws Exception {
-        List<String> pdfList = new ArrayList<String>();
-        pdfList.add("http://www.bremgarten.ch/dl.php/de/52a83c41c86c8/Bau-_und_Nutzungsordnung_23.5.2012.pdf");
+        Map<String,String> pdfList = new HashMap<String,String>();
+        pdfList.put("Test","http://www.bremgarten.ch/dl.php/de/52a83c41c86c8/Bau-_und_Nutzungsordnung_23.5.2012.pdf");
         String path = "/Users/rkempter/IdeaProjects/SwissCommuneCrawler/download/";
         File storagePath = new File(path);
         if(storagePath.exists()) storagePath.delete();

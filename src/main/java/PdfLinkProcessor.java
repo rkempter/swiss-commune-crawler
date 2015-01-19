@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * PdfLinkProcessor
@@ -25,6 +26,11 @@ public class PdfLinkProcessor {
 
     public PdfLinkProcessor(String storePath) {
         this.storePath = storePath;
+        File storePathDir = new File(storePath);
+
+        if(!storePathDir.exists()) {
+            storePathDir.mkdirs();
+        }
     }
 
     /**
@@ -33,11 +39,11 @@ public class PdfLinkProcessor {
      * @param links
      * @return
      */
-    public List<String> processPdfLinks(List<String> links) {
+    public int processPdfLinks(Map<String,String> links) {
         List<String> txtPathes = new ArrayList<String>();
-        for (String link : links) {
+        for (Map.Entry<String,String> link : links.entrySet()) {
             try {
-                File pdfFilePath = downloadPdf("TODO: Replace", link);
+                File pdfFilePath = downloadPdf(link.getKey(), link.getValue());
                 File txtFilePath = processPdfToText(pdfFilePath);
                 txtPathes.add(txtFilePath.getAbsolutePath());
             } catch (Exception e) {
@@ -45,7 +51,7 @@ public class PdfLinkProcessor {
             }
         }
 
-        return txtPathes;
+        return txtPathes.size();
     }
 
     /**
@@ -90,7 +96,7 @@ public class PdfLinkProcessor {
     private File processPdfToText(File pdfFilePath) throws IOException{
         PDFTextStripper stripper = new PDFTextStripper("utf-8");
         File outputFile = new File(storePath,
-                String.format("{}.txt", pdfFilePath.getAbsoluteFile().hashCode())
+                String.format("%s.txt", pdfFilePath.getAbsoluteFile().hashCode())
         );
         logger.info("Generating text file {}", outputFile.getAbsolutePath());
         Writer writer = new FileWriter(outputFile);
