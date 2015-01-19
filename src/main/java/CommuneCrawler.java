@@ -103,11 +103,11 @@ public class CommuneCrawler extends WebCrawler{
         XPath xpath = XPathFactory.newInstance().newXPath();
 
         NodeList textNodes = (NodeList) xpath.evaluate(
-                "//td//a[contains(., 'Bau') and contains(., 'ordnung') or" +
-                        " contains(., 'reglement')]/text()", doc, XPathConstants.NODESET);
+                "//td//a[contains(., 'Bau') and (contains(., 'ordnung') or" +
+                        " contains(., 'reglement'))]/text()", doc, XPathConstants.NODESET);
         NodeList pdfNodes = (NodeList) xpath.evaluate(
-                "//td//a[contains(., 'Bau') and contains(., 'ordnung') or" +
-                        " contains(., 'reglement')]/ancestor::tr[1]//a/" +
+                "//td//a[contains(., 'Bau') and (contains(., 'ordnung') or" +
+                        " contains(., 'reglement'))]/ancestor::tr[1]//a/" +
                         "@href[contains(.,'pdf')]", doc, XPathConstants.NODESET);
 
         if (pdfNodes.getLength() != textNodes.getLength()) return null;
